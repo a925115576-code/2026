@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CD - 售价输入自动填充（100%触发不闪烁版）
 // @namespace    http://tampermonkey.net/
-// @version      4.99
+// @version      5.0
 // @description  输入售价100%自动执行，不闪烁、不伤眼
 // @author       定制
 // @match        https://www.51selling.com/*
@@ -23,7 +23,7 @@
         enableAutoFill: GM_getValue('enableAutoFill', '1') === '1',
         skuPrefix: GM_getValue('skuPrefix', 'JACK'),
         vatTargetValue: 20,
-        currentVersion: '4.99',
+        currentVersion: '5.0',
         updateCheckUrl: 'https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd',
         clearFields: [
             'ProductPackagingValue',
