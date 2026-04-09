@@ -23,7 +23,7 @@
         enableAutoFill: GM_getValue('enableAutoFill', '1') === '1',
         skuPrefix: GM_getValue('skuPrefix', 'JACK'),
         vatTargetValue: 20,
-        currentVersion: '4.4',
+        currentVersion: '4.99',
         updateCheckUrl: 'https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd',
         clearFields: [
             'ProductPackagingValue',
