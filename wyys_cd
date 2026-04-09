@@ -2,13 +2,14 @@
 // @name         CD - 售价输入自动填充（100%触发不闪烁版）
 // @namespace    http://tampermonkey.net/
 // @version      4.41
-// @description 输入售价100%自动执行，不闪烁、不伤眼
+// @description  输入售价100%自动执行，不闪烁、不伤眼
 // @author       定制
 // @match        https://www.51selling.com/*
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_xmlhttpRequest
+// @grant        GM_openInTab
 // @run-at       document-idle
 // @updateURL    https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd
 // @downloadURL  https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd
@@ -22,13 +23,15 @@
         enableAutoFill: GM_getValue('enableAutoFill', '1') === '1',
         skuPrefix: GM_getValue('skuPrefix', 'JACK'),
         vatTargetValue: 20,
+        currentVersion: '4.4',
+        updateCheckUrl: 'https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd',
         clearFields: [
             'ProductPackagingValue',
             'Standard-ShippingCharges','Standard-AdditionalShippingCharges',
             'Registered-ShippingCharges','Registered-AdditionalShippingCharges',
             'MondialRelay-ShippingCharges','MondialRelay-AdditionalShippingCharges',
-            'RelaisColis-ShippingCharges','RelaisColis-AdditionalShippingCharges',
-            'SoColissimo-ShippingCharges','SoColissimo-AdditionalShippingCharges',
+            'RelaisColis-ShippingCharges','RelaisColis-ShippingCharges',
+            'SoColissimo-ShippingCharges','SoColissimo-ShippingCharges',
         ],
         zeroFields: ['EcoPart','DeaTax','Tracked-ShippingCharges','Tracked-AdditionalShippingCharges'],
         selectors: {
@@ -95,6 +98,34 @@
         };
     }
 
+    // ====================== ✅ 检查更新菜单 ======================
+    function checkUpdate() {
+        toast('🔍 正在检查更新...');
+        GM_xmlhttpRequest({
+            method: 'GET',
+            url: CONFIG.updateCheckUrl,
+            timeout: 5000,
+            onload: (res) => {
+                try {
+                    const text = res.responseText;
+                    const vMatch = text.match(/@version\s+([0-9.]+)/i);
+                    if (!vMatch) return toast('❌ 无法获取版本');
+                    const onlineVersion = vMatch[1];
+                    if (parseFloat(onlineVersion) > parseFloat(CONFIG.currentVersion)) {
+                        toast(`✅ 发现新版本：${onlineVersion}，正在打开更新页面`);
+                        setTimeout(() => GM_openInTab(CONFIG.updateCheckUrl), 600);
+                    } else {
+                        toast('✅ 当前已是最新版本！');
+                    }
+                } catch (e) {
+                    toast('❌ 检查更新失败');
+                }
+            },
+            onerror: () => toast('❌ 检查更新失败'),
+            ontimeout: () => toast('❌ 检查更新超时')
+        });
+    }
+
     // 油猴菜单
     let menuLock = false;
     function registerMenu() {
@@ -106,7 +137,11 @@
             toast(CONFIG.enableAutoFill ? '✅ 已开启自动填充' : '❌ 已关闭自动填充');
             setTimeout(()=>menuLock=false, 600);
         });
+
         GM_registerMenuCommand("📛 设置SKU前缀", showPrefixInput);
+        
+        // ✅ 新增：检查更新
+        GM_registerMenuCommand("🔄 检查脚本更新", checkUpdate);
     }
 
     // 工具函数
