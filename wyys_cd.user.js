@@ -11,8 +11,8 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_openInTab
 // @run-at       document-idle
-// @updateURL    https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd
-// @downloadURL  https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd
+// @updateURL    https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd.js
+// @downloadURL  https://raw.githubusercontent.com/a925115576-code/2026/refs/heads/main/wyys_cd.js
 // ==/UserScript==
 // 123
 
