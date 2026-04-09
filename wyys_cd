@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CD - 售价输入自动填充（100%触发不闪烁版）
 // @namespace    http://tampermonkey.net/
-// @version      4.4
+// @version      4.41
 // @description 输入售价100%自动执行，不闪烁、不伤眼
 // @author       定制
 // @match        https://www.51selling.com/*
